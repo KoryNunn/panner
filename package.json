@@ -1,0 +1,19 @@
+{
+  "name": "panner",
+  "version": "0.0.0",
+  "description": "",
+  "main": "panner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "doc-js": "~0.4.1",
+    "crel": "~1.1.0",
+    "venfix": "0.0.2",
+    "math-js": "0.0.2",
+    "settler": "0.0.1",
+    "interact-js": "~0.4.2"
+  }
+}
