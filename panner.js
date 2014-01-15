@@ -2,7 +2,6 @@ var doc = require('doc-js'),
     EventEmitter = require('events').EventEmitter,
     interact = require('interact-js'),
     crel = require('crel'),
-    venfix = require('venfix'),
     vectorToComponents = require('math-js/vectors/toComponents'),
     Settler = require('settler');
 
@@ -26,7 +25,9 @@ Panner.prototype.maxY = 1000;
 Panner.prototype.minY = 0;
 Panner.prototype.maxX = 1000;
 Panner.prototype.minX = 0;
-Panner.prototype._ratio = 1;
+Panner.prototype._pixelRatio = 1;
+Panner.prototype.minRatio = 1;
+Panner.prototype.maxRatio = 1000;
 Panner.prototype._bind = function(){
     var panner = this;
 
@@ -46,6 +47,13 @@ Panner.prototype._drag = function(interaction){
         return;
     }
 
+    if(!this._dragStarted){
+        this._dragStarted = true;
+        this.emit('dragStart');
+    }
+
+    interaction.preventDefault();
+
     var moveDelta = interaction.getMoveDelta();
 
     this.movePoint({
@@ -63,6 +71,9 @@ Panner.prototype._end = function(interaction){
     }
 
     this._interactions.splice(interactionIndex, 1);
+
+    this._dragStarted = false;
+    this.emit('dragEnd');
 };
 Panner.prototype._render = function(element){
     this.element = element || crel('div');
@@ -82,6 +93,13 @@ Panner.prototype.position = function(coordinates){
             x: this._position.x,
             y: this._position.y
         };
+    }
+
+    if(
+        this._position.x === coordinates.x &&
+        this._position.y ===coordinates.y
+    ){
+        return;
     }
 
     this._position.y = Math.min(
@@ -104,8 +122,8 @@ Panner.prototype.pan = function(coordinates){
     }
 
     this.position({
-        x: coordinates / this._pixelRatio,
-        y: coordinates / this._pixelRatio
+        x: Math.floor(coordinates.x / this._pixelRatio),
+        y: Math.floor(coordinates.y / this._pixelRatio)
     });
     this.emit('pan');
     this.emit('change');
@@ -116,7 +134,7 @@ Panner.prototype.pixelRatio = function(ratio){
     }
 
     this._pixelRatio = Math.min(
-        Math.max(this.minRatio, zoom),
+        Math.max(this.minRatio, ratio),
         this.maxRatio
     );
     this.emit('zoom');
