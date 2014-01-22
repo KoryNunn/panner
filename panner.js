@@ -10,6 +10,7 @@ function Panner(element){
 
     this._interactions = [];
     this._position = {x:0,y:0};
+    this._pixelRatio = {x:1,y:1};
 
     this._render(element);
 
@@ -25,9 +26,10 @@ Panner.prototype.maxY = 1000;
 Panner.prototype.minY = 0;
 Panner.prototype.maxX = 1000;
 Panner.prototype.minX = 0;
-Panner.prototype._pixelRatio = 1;
-Panner.prototype.minRatio = 1;
-Panner.prototype.maxRatio = 1000;
+Panner.prototype.minRatioX = 1;
+Panner.prototype.maxRatioX = 1000;
+Panner.prototype.minRatioY = 1;
+Panner.prototype.maxRatioY = 1000;
 Panner.prototype._bind = function(){
     var panner = this;
 
@@ -116,26 +118,33 @@ Panner.prototype.position = function(coordinates){
 Panner.prototype.pan = function(coordinates){
     if(!arguments.length){
         return {
-            x: this._position.x * this._pixelRatio,
-            y: this._position.y * this._pixelRatio
+            x: this._position.x * this._pixelRatio.x,
+            y: this._position.y * this._pixelRatio.y
         };
     }
 
     this.position({
-        x: Math.floor(coordinates.x / this._pixelRatio),
-        y: Math.floor(coordinates.y / this._pixelRatio)
+        x: coordinates.x / this._pixelRatio.x,
+        y: coordinates.y / this._pixelRatio.y
     });
     this.emit('pan');
     this.emit('change');
 };
-Panner.prototype.pixelRatio = function(ratio){
+Panner.prototype.pixelRatio = function(ratios){
     if(!arguments.length){
-        return this._pixelRatio;
+        return {
+            x: this._pixelRatio.x,
+            y: this._pixelRatio.y
+        };
     }
 
-    this._pixelRatio = Math.min(
-        Math.max(this.minRatio, ratio),
-        this.maxRatio
+    this._pixelRatio.y = Math.min(
+        Math.max(this.minRatioY, ratios.y),
+        this.maxRatioY
+    );
+    this._pixelRatio.x = Math.min(
+        Math.max(this.minRatioX, ratios.x),
+        this.maxRatioX
     );
     this.emit('zoom');
     this.emit('change');
