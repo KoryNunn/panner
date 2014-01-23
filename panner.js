@@ -138,6 +138,8 @@ Panner.prototype.pixelRatio = function(ratios){
         };
     }
 
+    var currentPan = this.pan();
+
     this._pixelRatio.y = Math.min(
         Math.max(this.minRatioY, ratios.y),
         this.maxRatioY
@@ -146,6 +148,7 @@ Panner.prototype.pixelRatio = function(ratios){
         Math.max(this.minRatioX, ratios.x),
         this.maxRatioX
     );
+    this.pan(currentPan);
     this.emit('zoom');
     this.emit('change');
 };
