@@ -41,8 +41,14 @@ Panner.prototype._bind = function(){
     interact.on('end', document, this._end.bind(this));
     interact.on('cancel', document, this._end.bind(this));
 }
+// Overridable function to decided of an interaction should begin.
+Panner.prototype.validInteraction = function(){
+    return true;
+};
 Panner.prototype._start = function(interaction){
-    this._interactions.push(interaction);
+    if(this.validInteraction(interaction)){
+        this._interactions.push(interaction);
+    }
 };
 Panner.prototype._drag = function(interaction){
     if(this._interactions.indexOf(interaction) < 0){
