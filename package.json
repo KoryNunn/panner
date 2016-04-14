@@ -1,7 +1,6 @@
 {
   "name": "panner",
   "version": "0.0.2",
-  "description": "",
   "main": "panner.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,5 +14,15 @@
     "math-js": "0.0.2",
     "settler": "0.0.1",
     "interact-js": "~0.4.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KoryNunn/panner.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/KoryNunn/panner/issues"
+  },
+  "homepage": "https://github.com/KoryNunn/panner#readme",
+  "description": ""
 }
