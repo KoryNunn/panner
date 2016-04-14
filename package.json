@@ -1,6 +1,6 @@
 {
   "name": "panner",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "panner.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
